@@ -1,7 +1,15 @@
+import type { Config } from "tailwindcss";
+
 export default {
-  content: ["./src/**/*.{html,js,ts,jsx,tsx}"],
+  content: ["./app/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+      },
+    },
   },
   plugins: [],
-}
+} satisfies Config;

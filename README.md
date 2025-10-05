@@ -50,7 +50,7 @@ The platform combines the power of AI-driven insights with true real-time collab
 - **Neverthrow** - Type-safe error handling with Result types
 
 ### AI Integration
-- **OpenAI API** - Powers AI features:
+- **Gemini API** - Powers AI features:
   - Task breakdown and decomposition
   - Workload prediction and analysis
   - Smart suggestions and recommendations
