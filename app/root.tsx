@@ -7,18 +7,12 @@ import {
 } from "react-router";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import type { Route } from "./+types/root";
-import "./tailwind.css";
-
-const convex = new ConvexReactClient(
-  typeof window !== "undefined" 
-    ? (window as any).ENV.CONVEX_DEPLOYMENT 
-    : ""
-);
+import "./app.css";
 
 export function loader() {
   return {
     ENV: {
-      CONVEX_DEPLOYMENT: process.env.CONVEX_DEPLOYMENT,
+      VITE_CONVEX_URL: process.env.VITE_CONVEX_URL,
     },
   };
 }
@@ -42,8 +36,23 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App({ loaderData }: Route.ComponentProps) {
+  const convexUrl = typeof window !== "undefined" 
+    ? (window as any).ENV?.VITE_CONVEX_URL 
+    : loaderData?.ENV?.VITE_CONVEX_URL || "";
+
+  if (!convexUrl) {
+    throw new Error("Missing VITE_CONVEX_URL environment variable");
+  }
+
+  const convex = new ConvexReactClient(convexUrl);
+
   return (
     <ConvexProvider client={convex}>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.ENV = ${JSON.stringify(loaderData?.ENV || {})};`,
+        }}
+      />
       <Outlet />
     </ConvexProvider>
   );
